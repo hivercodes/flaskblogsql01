@@ -47,13 +47,14 @@ def get_all_posts():
     all_posts = db.session.query(BlogPost).all()
     return render_template("index.html", all_posts=all_posts)
 
+@app.route('/edit_post')
+def edit_post():
+    return render_template("index.html")
 
 @app.route("/post/<int:index>")
 def show_post(index):
-    requested_post = None
-    for blog_post in posts:
-        if blog_post["id"] == index:
-            requested_post = blog_post
+    print(index)
+    requested_post = db.session.query(BlogPost).filter_by(id=int(index)).first()
     return render_template("post.html", post=requested_post)
 
 
