@@ -1,20 +1,19 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditor, CKEditorField
+import requests
 
 
-## Delete this code:
-# import requests
-# posts = requests.get("https://api.npoint.io/43644ec4f0013682fc0d").json()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
 Bootstrap(app)
+
 
 ##CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
@@ -37,7 +36,7 @@ class CreatePostForm(FlaskForm):
     title = StringField("Blog Post Title", validators=[DataRequired()])
     subtitle = StringField("Subtitle", validators=[DataRequired()])
     author = StringField("Your Name", validators=[DataRequired()])
-    img_url = StringField("Blog Image URL", validators=[DataRequired(), URL()])
+    img_url = StringField("Blog Image URL", validators=[DataRequired()])
     body = StringField("Blog Content", validators=[DataRequired()])
     submit = SubmitField("Submit Post")
 
@@ -66,6 +65,18 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+
+@app.route("/make-post", methods=["GET", "POST"])
+def make_post():
+    form = CreatePostForm()
+    if form.validate_on_submit() and request.method == "POST":
+        print(request.form["body"])
+        print(request.form.get("title"))
+        return redirect(url_for("get_all_posts"))
+    return render_template("make-post.html", form=form)
+
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
