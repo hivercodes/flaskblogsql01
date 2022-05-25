@@ -53,6 +53,7 @@ def edit_post():
 @app.route("/post/<int:index>")
 def show_post(index):
     print(index)
+    #Gets the spicific post
     requested_post = db.session.query(BlogPost).filter_by(id=int(index)).first()
     return render_template("post.html", post=requested_post)
 
