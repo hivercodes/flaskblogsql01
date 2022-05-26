@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    {{ ckeditor.load() }}
+
   </header>
 
   <div class="container">
@@ -24,18 +24,13 @@
       <div class="col-lg-8 col-md-10 mx-auto">
         
           <!-- This is where the form will go -->
-            <form class="form form-horizontal" method="post" role="form">
-              {{ form.hidden_tag() }}
-            {{ wtf.form_field(form.title) }}
-              {{ wtf.form_field(form.subtitle) }}
-            {{ wtf.form_field(form.author) }}
-               {{ wtf.form_field(form.img_url) }}
-              {{ ckeditor.config(name='Blog content') }}
-              {{ form.body.label}}
-              {{ ckeditor.create() }}
+
+              <form method="post" novalidate>
+              {{ wtf.quick_form(form)}}
+              </form>
+   {{ ckeditor.load() }}
               {{ ckeditor.config(name='body') }}
-               {{ wtf.form_field(form.submit) }}
-          </form>
+
       </div>
     </div>
   </div>
