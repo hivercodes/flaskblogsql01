@@ -72,8 +72,16 @@ def contact():
 @app.route("/make-post", methods=["GET", "POST"])
 def make_post():
     form = CreatePostForm()
+    now = datetime.now()
+    month = now.strftime("%B")
+    day = now.day
+    year = now.year
+    date = f'{month} {day}, {year}'
     if form.validate_on_submit() and request.method == "POST":
-        new_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, date=)
+        print(form.body.data)
+        #new_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=form.author.data, date=date, img_url=form.img_url.data, body=form.body.data)
+        #db.session.add(new_post)
+        #db.session.commit()
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form)
 
