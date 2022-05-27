@@ -38,6 +38,7 @@ class CreatePostForm(FlaskForm):
     subtitle = StringField("Subtitle", validators=[DataRequired()])
     author = StringField("Your Name", validators=[DataRequired()])
     img_url = StringField("Blog Image URL", validators=[DataRequired()])
+    #if using ckeditor, remember to change the string field you are using to the right field or it won't count as required.
     body = CKEditorField("Blog Content", validators=[DataRequired()])
     submit = SubmitField("Submit Post")
 
@@ -78,10 +79,9 @@ def make_post():
     year = now.year
     date = f'{month} {day}, {year}'
     if form.validate_on_submit() and request.method == "POST":
-        print(form.body.data)
-        #new_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=form.author.data, date=date, img_url=form.img_url.data, body=form.body.data)
-        #db.session.add(new_post)
-        #db.session.commit()
+        new_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=form.author.data, date=date, img_url=form.img_url.data, body=form.body.data)
+        db.session.add(new_post)
+        db.session.commit()
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form)
 

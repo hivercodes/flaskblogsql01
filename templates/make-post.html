@@ -28,6 +28,7 @@
               <form method="post" novalidate>
               {{ wtf.quick_form(form)}}
               </form>
+          <!-- The ckeditor things will be behind the form -->
    {{ ckeditor.load() }}
               {{ ckeditor.config(name='body') }}
 
