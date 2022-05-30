@@ -54,7 +54,6 @@ def edit_post():
 
 @app.route("/post/<int:index>")
 def show_post(index):
-    print(index)
     #Gets the spicific post
     requested_post = db.session.query(BlogPost).filter_by(id=int(index)).first()
     return render_template("post.html", post=requested_post)
@@ -85,6 +84,7 @@ def make_post():
         new_post = BlogPost(title=form.title.data, subtitle=form.subtitle.data, author=form.author.data, date=date, img_url=form.img_url.data, body=form.body.data)
         db.session.add(new_post)
         db.session.commit()
+        #redirect back to the first page with all the psts
         return redirect(url_for("get_all_posts"))
     return render_template("make-post.html", form=form)
 
