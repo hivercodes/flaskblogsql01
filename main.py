@@ -58,6 +58,14 @@ def show_post(index):
     requested_post = db.session.query(BlogPost).filter_by(id=int(index)).first()
     return render_template("post.html", post=requested_post)
 
+@app.route("/delete/<int:index>")
+def delete(index):
+    #Deletes the spicific post
+    post_to_delete = BlogPost.query.get(index)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    return redirect(url_for("get_all_posts"))
+
 
 @app.route("/about")
 def about():
